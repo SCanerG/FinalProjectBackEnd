@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.BusinessRules;
 using Entities.DTOs;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,11 +9,13 @@ namespace WebAPI.Controllers
     [ApiController]
     public class AuthController : Controller
     {
-        private IAuthService _authService;
+        public IAuthService _authService;
+         IUserBusinessRules _userBusinessRules;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, IUserBusinessRules userBusinessRules)
         {
             _authService = authService;
+            _userBusinessRules = userBusinessRules;
         }
 
         [HttpPost("login")]
@@ -36,7 +39,7 @@ namespace WebAPI.Controllers
         [HttpPost("register")]
         public ActionResult Register(UserForRegisterDto userForRegisterDto)
         {
-            var userExists = _authService.UserExists(userForRegisterDto.Email);
+            var userExists = _userBusinessRules.UserExists(userForRegisterDto.Email);
             if (!userExists.Success)
             {
                 return BadRequest(userExists.Message);

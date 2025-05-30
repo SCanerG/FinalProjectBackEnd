@@ -13,9 +13,11 @@ namespace Business.Constants
         public static string ProductUpdated = "Ürün başarıyla güncellendi";
         public static string ProductsListed = "Ürünler başarıyla Listelendi";
         public static string ProductCountOfCategoryError = "Kategoride maks 10 ürün olabilir";
+     public static string CategoryLimitExceded = "En fazla 10 kategoride ürün ekleyebilirsiniz.";
 
         public static string UserNotFound = "Kullanıcı bulunamadı";
         public static string PasswordError = "Şifre hatalı";
+        public static string PasswordLengthError = "Şifre En az 6 rakam olmalı";
         public static string SuccessfulLogin = "Sisteme giriş başarılı";
         public static string UserAlreadyExists = "Bu kullanıcı zaten mevcut";
         public static string UserRegistered = "Kullanıcı başarıyla kaydedildi";

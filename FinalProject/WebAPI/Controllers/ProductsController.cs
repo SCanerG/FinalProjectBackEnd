@@ -28,13 +28,6 @@ namespace WebAPI.Controllers
             } 
             return BadRequest(result.Message);
 
-            //return new List<Product> {
-            //    new Product { ProductId = 1, CategoryId = 2, ProductName = "Bardak", UnitPrice = 5, UnitsInStock = 3 },
-            //    new Product { ProductId = 1, CategoryId = 2, ProductName = "Bardak", UnitPrice = 5, UnitsInStock = 3 },
-            //    new Product { ProductId = 1, CategoryId = 2, ProductName = "Bardak", UnitPrice = 5, UnitsInStock = 3 },
-            //    new Product { ProductId = 1, CategoryId = 2, ProductName = "Bardak", UnitPrice = 5, UnitsInStock = 3 },
-            //    new Product { ProductId = 1, CategoryId = 2, ProductName = "Bardak", UnitPrice = 5, UnitsInStock = 3 }
-            //};
         }
 
         [HttpPost("add")]

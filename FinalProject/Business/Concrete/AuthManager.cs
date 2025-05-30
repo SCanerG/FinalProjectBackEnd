@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Business.Abstract;
+using Business.BusinessRules;
 using Business.Constants;
 using Core.Entities.Concrete;
 using Core.Utilities.Results;
@@ -15,15 +16,22 @@ namespace Business.Concrete
     {
         private IUserService _userService;
         private ITokenHelper _tokenHelper;
+        IUserBusinessRules _userBusinessRules;
 
-        public AuthManager(IUserService userService, ITokenHelper tokenHelper)
+        public AuthManager(IUserService userService, ITokenHelper tokenHelper, IUserBusinessRules userBusinessRules)
         {
             _userService = userService;
             _tokenHelper = tokenHelper;
+            _userBusinessRules = userBusinessRules;
         }
 
         public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
+            var passwordCheckResult = _userBusinessRules.CheckIfPasswordLenghtLessThan(password);
+            if (!passwordCheckResult.Success)
+            {
+                return new ErrorDataResult<User>(Messages.PasswordLengthError);
+            }
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
             var user = new User
@@ -38,6 +46,8 @@ namespace Business.Concrete
             _userService.Add(user);
             return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
+
+       
 
         public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
@@ -55,14 +65,8 @@ namespace Business.Concrete
             return new SuccessDataResult<User>(userToCheck, Messages.SuccessfulLogin);
         }
 
-        public IResult UserExists(string email)
-        {
-            if (_userService.GetByMail(email) != null)
-            {
-                return new ErrorResult(Messages.UserAlreadyExists);
-            }
-            return new SuccessResult();
-        }
+     
+     
 
         public IDataResult<AccessToken> CreateAccessToken(User user)
         {
